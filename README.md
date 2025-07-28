@@ -35,4 +35,25 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 | JobTitle | Text | Sales |
 | Department | Choice | Sales |
 | StartDate | Date & Time | mm/dd/yyyy |
-| ManagerEmail| Text | manager@contoso.com |
+| ManagerEmail| Text | manager&#xfeff;@&#xfeff;contoso.com |
+## Deployment
+
+ ## Security Considerations/Concerns
+ - Passwords are emailed in plain text for demo purposes.
+ - The Logic App uses a **Managed Identity** with the following Entra ID Roles:
+    - User Administrator
+    - License Administrator 
+ ## Testing
+ - Add a new user entry to the SharePoint list
+ - Verify user creation in Entra ID
+ - Confirm email delivery to the manager
+ - Confirm license assignment
+## Known Issues / Future Improvements
+- Add support for group assignments
+- Store passwords using Key Vault or send via securelink
+- Add UI form to create entries in SharePoint 
+## License
+"This project is licensed under the MIT License"
+## Acknowledgements
+Inspired by @madebygps as a part of the clould-engineering-projects for the az-104
+Built by Ted Maldonado
