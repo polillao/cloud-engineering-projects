@@ -55,5 +55,6 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 ## License
 "This project is licensed under the MIT License"
 ## Acknowledgements
-Inspired by @madebygps as a part of the clould-engineering-projects for the az-104
-Built by Ted Maldonado
+Inspired by [@madebygps](https://github.com/madebygps) as a part of the clould-engineering-projects for the az-104.
+
+Built by Ted Maldonado.
