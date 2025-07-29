@@ -14,7 +14,7 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 - SharePoint Online
 - O365 (Outlook Email Connector)
 ## Visual
- [coming soon]   
+![Logic App Diagram](onboard-diagram.svg)
 ## Features
 - Dynamic Display Name, UPN, Mail Nickname generation
 - Temporary password generation (```TempXXXX```) with random GUID segment
