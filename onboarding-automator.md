@@ -53,8 +53,7 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 - Store passwords using Key Vault or send via securelink
 - Add UI form to create entries in SharePoint 
 ## License
-"This project is licensed under the MIT License"
+[MIT License](LICENSE)
 ## Acknowledgements
 Inspired by [@madebygps](https://github.com/madebygps) as a part of the clould-engineering-projects for the az-104.
-
-Built by Ted Maldonado.
+Built by Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
