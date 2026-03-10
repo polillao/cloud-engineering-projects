@@ -65,7 +65,7 @@ Secure Download Link
 
 
 
-## Security Considerations
+## Security Considerations/Concerns
 
 Files are accessed using **temporary SAS tokens**, preventing direct public access to storage containers.
 
