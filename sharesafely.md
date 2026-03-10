@@ -71,15 +71,18 @@ Files are accessed using **temporary SAS tokens**, preventing direct public acce
 
 Environment variables are used to store connection strings instead of hardcoding credentials.
 
-Future improvements include integrating **Azure Key Vault** for secure secret management.
-
-
 
 ## Deployment
 
 This project was developed locally using Flask and deployed to **Azure App Service**.
 
 The application connects to **Azure Blob Storage** to store uploaded files and generate secure temporary download links.
+
+## Known Issues / Future Improvements
+- Automatic deletion of expired blobs
+- Drag-and-drop upload interface
+- Azure Key Vault integration for secret management
+- Upload progress indicator
 
 ## License
 MIT License
