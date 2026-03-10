@@ -24,7 +24,7 @@ This demonstrates a real-world **secure file sharing architecture** using Azure 
 ## Screenshots
 
 ### Upload Page
-![Upload Page](assets/success.png)
+![Upload Page](assets/upload.png)
 
 ### Success Page
 ![Success Page](./assets/success.png)
