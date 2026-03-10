@@ -17,8 +17,8 @@ A collection of real-world Azure automation and infrastructure demos.
 
 ### 🔐 ShareSafely
 - **Tech Stack:** Python, Flask, Azure Blob Storage, SAS Tokens, Azure App Service
-- **Features:** Secure file uploads with time-limited download links
-- **Link:** [sharesafely.md](./sharesafely.md)
+- **Features:** Secure file uploads with time-limited SAS download links stored in Azure Blob Storage
+- **Link:** [ShareSafely](./sharesafely.md)
 
 ### 📦 Coming Soon: Auto Group Joiner
 - Automate new user group membership based on department or job title
