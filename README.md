@@ -20,10 +20,6 @@ A collection of real-world Azure automation and infrastructure demos.
 - **Features:** Secure file uploads with time-limited SAS download links stored in Azure Blob Storage
 - **Link:** [ShareSafely](./sharesafely.md)
 
-### 📦 Coming Soon: Auto Group Joiner
-- Automate new user group membership based on department or job title
-
-### 🔐 Coming Soon: Secure Password Delivery
-- Store and retrieve onboarding credentials securely with Azure Key Vault
+### 📦 Coming Soon: Azure VM Infrastructure Deployment (Infrastructure as Code)
 
 ---
