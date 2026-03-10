@@ -21,7 +21,13 @@ The application:
 
 This demonstrates a real-world **secure file sharing architecture** using Azure storage primitives.
 
+## Screenshots
 
+### Upload Page
+![Upload Page](./assets/sharesafely/upload-page.png)
+
+### Success Page
+![Success Page](./assets/sharesafely/success-page.png)
 
 ## Tech Stack
 
