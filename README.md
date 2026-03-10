@@ -15,6 +15,11 @@ A collection of real-world Azure automation and infrastructure demos.
 - **Features:** Auto-creates M365 users, assigns licenses, and emails managers with credentials
 - **Link:** [onboard-automator](./onboarding-automator.md)
 
+### 🔐 ShareSafely
+- **Tech Stack:** Python, Flask, Azure Blob Storage, SAS Tokens, Azure App Service
+- **Features:** Secure file uploads with time-limited download links
+- **Link:** [sharesafely.md](./sharesafely.md)
+
 ### 📦 Coming Soon: Auto Group Joiner
 - Automate new user group membership based on department or job title
 
