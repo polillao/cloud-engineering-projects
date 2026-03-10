@@ -24,10 +24,10 @@ This demonstrates a real-world **secure file sharing architecture** using Azure 
 ## Screenshots
 
 ### Upload Page
-![Upload Page](./assets/sharesafely/upload.png)
+![Upload Page](assets/success.png)
 
 ### Success Page
-![Success Page](./assets/sharesafely/success.png)
+![Success Page](./assets/success.png)
 
 ## Tech Stack
 
