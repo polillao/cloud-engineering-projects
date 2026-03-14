@@ -38,6 +38,15 @@ This eliminates manual onboarding tasks and ensures consistency across the onboa
 | ManagerEmail| Text | manager&#xfeff;@&#xfeff;contoso.com |
 ## Deployment
 
+**Prerequisites**
+- Azure subscription with permissions to create Logic Apps
+- Microsoft 365 tenant with admin access
+- SharePoint Online site with a "New Hire" list (see column schema above)
+- Managed Identity enabled on the Logic App with the following Entra ID roles:
+  - User Administrator
+  - License Administrator
+
+> Built and configured via the Azure Portal and Microsoft 365 Admin Center.
  ## Security Considerations/Concerns
  - Passwords are emailed in plain text for demo purposes.
  - The Logic App uses a **Managed Identity** with the following Entra ID Roles:
