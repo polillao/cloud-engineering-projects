@@ -13,13 +13,16 @@ A collection of real-world Azure automation and infrastructure demos.
 ### 🚀 Onboard Automator
 - **Tech Stack:** Azure Logic Apps, Microsoft Entra ID, Graph API, SharePoint, O365
 - **Features:** Auto-creates M365 users, assigns licenses, and emails managers with credentials
-- **Link:** [onboard-automator](./onboarding-automator.md)
+- **Link:** [Onboard Automator](./onboarding-automator.md)
 
 ### 🔐 ShareSafely
 - **Tech Stack:** Python, Flask, Azure Blob Storage, SAS Tokens, Azure App Service
 - **Features:** Secure file uploads with time-limited SAS download links stored in Azure Blob Storage
 - **Link:** [ShareSafely](./sharesafely.md)
 
-### 📦 Coming Soon: Azure VM Infrastructure Deployment (Infrastructure as Code)
+### 📦 VM Fleet Commander
+- **Tech Stack:** Azure, Bicep, Infrastructure as Code, Azure Virtual Machines
+- **Features:** Deploys and manages Azure virtual machine infrastructure using reusable IaC templates
+- **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
 
 ---
