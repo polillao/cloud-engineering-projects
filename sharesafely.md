@@ -85,7 +85,7 @@ The application connects to **Azure Blob Storage** to store uploaded files and g
 - Upload progress indicator
 
 ## License
-MIT License
+[MIT License](LICENSE)
 
 ## Acknowledgements
 
