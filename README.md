@@ -4,7 +4,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 
-A collection of real-world Azure automation and infrastructure demos.
+A portfolio of hands-on cloud engineering projects focused on Azure automation, identity, and infrastructure.
 
 ---
 
