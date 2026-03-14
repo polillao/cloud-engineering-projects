@@ -55,5 +55,5 @@ This eliminates manual onboarding tasks and ensures consistency across the onboa
 ## License
 [MIT License](LICENSE)
 ## Acknowledgements
-Inspired by [@madebygps](https://github.com/madebygps) as a part of the cloud-engineering-projects for the az-104.
-Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
+Built as part of the [@madebygps](https://github.com/madebygps) cloud-engineering-projects 
+curriculum for AZ-104 by **[Ted Maldonado](https://github.com/polillao)**.
