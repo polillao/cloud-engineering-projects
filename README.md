@@ -30,4 +30,8 @@ file sharing — not consumer tools.
 - **Tech Stack:** Azure, Bicep, ARM, Azure Virtual Machines
 - **What it does:** Deploys and manages Azure VM infrastructure using parameterized 
 Bicep templates across multiple environments.
-- **Why I built it:** To practice repeatable, scalable I
+- **Why I built it:** To practice repeatable, scalable IaC deployments the way 
+they're done in real cloud environments.
+- **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
+
+---
