@@ -6,7 +6,7 @@ Onboard Automator is a serverless automation workflow built with Azure Logic App
 - Automatically creates a Microsoft Entra ID (Azure AD) user
 - Assigns a M365 license
 - Sends the account credentials to the listed manager
-This eliminates manual onboarding tasks and ensures consistency accross the onboarding process.
+This eliminates manual onboarding tasks and ensures consistency across the onboarding process.
 ## Tech Stack
 - Azure Logic Apps
 - Microsoft Entra ID (Azure AD)
@@ -22,7 +22,7 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 - Email to manager with login credentials
 - License assignment via Graph API with Managed Identity
 ## Triggers and Flow
-1. **Trigger**: when a new itm is created in the SharePoint "New Hire" list
+1. **Trigger**: when a new item is created in the SharePoint "New Hire" list
 2. **Initialize Password Variable**: ```TempXXXX``` format
 3. **Create User in Entra ID**
 4. **Assign License** (via HTTP call to Microsoft Graph)
@@ -55,5 +55,5 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 ## License
 [MIT License](LICENSE)
 ## Acknowledgements
-Inspired by [@madebygps](https://github.com/madebygps) as a part of the clould-engineering-projects for the az-104.
-Built by Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
+Inspired by [@madebygps](https://github.com/madebygps) as a part of the cloud-engineering-projects for the az-104.
+Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
