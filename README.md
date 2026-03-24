@@ -1,10 +1,11 @@
 # Cloud Engineering Projects
-
 ![Azure](https://img.shields.io/badge/Azure-Logic%20Apps-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 
-A collection of real-world Azure automation and infrastructure demos.
+Hands-on Azure projects built while transitioning from systems administration 
+into cloud engineering. Each project maps to an AZ-104 exam domain and solves 
+a problem I encountered in real sysadmin work.
 
 ---
 
@@ -12,14 +13,25 @@ A collection of real-world Azure automation and infrastructure demos.
 
 ### 🚀 Onboard Automator
 - **Tech Stack:** Azure Logic Apps, Microsoft Entra ID, Graph API, SharePoint, O365
-- **Features:** Auto-creates M365 users, assigns licenses, and emails managers with credentials
-- **Link:** [onboard-automator](./onboarding-automator.md)
+- **What it does:** Auto-provisions new hires in M365 — creates accounts, assigns 
+licenses, sets mailbox permissions, and notifies managers automatically.
+- **Why I built it:** I managed this process manually at a law firm. This automates it end-to-end.
+- **Link:** [Onboard Automator](./onboarding-automator.md)
 
 ### 🔐 ShareSafely
 - **Tech Stack:** Python, Flask, Azure Blob Storage, SAS Tokens, Azure App Service
-- **Features:** Secure file uploads with time-limited SAS download links stored in Azure Blob Storage
+- **What it does:** Secure file sharing app with time-limited access links, RBAC, 
+and secrets managed via Azure Key Vault.
+- **Why I built it:** Legal and enterprise environments need controlled, auditable 
+file sharing — not consumer tools.
 - **Link:** [ShareSafely](./sharesafely.md)
 
-### 📦 Coming Soon: Azure VM Infrastructure Deployment (Infrastructure as Code)
+### 📦 VM Fleet Commander *(in progress)*
+- **Tech Stack:** Azure, Bicep, ARM, Azure Virtual Machines
+- **What it does:** Deploys and manages Azure VM infrastructure using parameterized 
+Bicep templates across multiple environments.
+- **Why I built it:** To practice repeatable, scalable IaC deployments the way 
+they're done in real cloud environments.
+- **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
 
 ---

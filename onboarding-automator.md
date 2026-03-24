@@ -6,7 +6,7 @@ Onboard Automator is a serverless automation workflow built with Azure Logic App
 - Automatically creates a Microsoft Entra ID (Azure AD) user
 - Assigns a M365 license
 - Sends the account credentials to the listed manager
-This eliminates manual onboarding tasks and ensures consistency accross the onboarding process.
+This eliminates manual onboarding tasks and ensures consistency across the onboarding process.
 ## Tech Stack
 - Azure Logic Apps
 - Microsoft Entra ID (Azure AD)
@@ -22,7 +22,7 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 - Email to manager with login credentials
 - License assignment via Graph API with Managed Identity
 ## Triggers and Flow
-1. **Trigger**: when a new itm is created in the SharePoint "New Hire" list
+1. **Trigger**: when a new item is created in the SharePoint "New Hire" list
 2. **Initialize Password Variable**: ```TempXXXX``` format
 3. **Create User in Entra ID**
 4. **Assign License** (via HTTP call to Microsoft Graph)
@@ -38,6 +38,15 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 | ManagerEmail| Text | manager&#xfeff;@&#xfeff;contoso.com |
 ## Deployment
 
+**Prerequisites**
+- Azure subscription with permissions to create Logic Apps
+- Microsoft 365 tenant with admin access
+- SharePoint Online site with a "New Hire" list (see column schema above)
+- Managed Identity enabled on the Logic App with the following Entra ID roles:
+  - User Administrator
+  - License Administrator
+
+> Built and configured via the Azure Portal and Microsoft 365 Admin Center.
  ## Security Considerations/Concerns
  - Passwords are emailed in plain text for demo purposes.
  - The Logic App uses a **Managed Identity** with the following Entra ID Roles:
@@ -55,5 +64,5 @@ This eliminates manual onboarding tasks and ensures consistency accross the onbo
 ## License
 [MIT License](LICENSE)
 ## Acknowledgements
-Inspired by [@madebygps](https://github.com/madebygps) as a part of the clould-engineering-projects for the az-104.
-Built by Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
+Built as part of the [@madebygps](https://github.com/madebygps) cloud-engineering-projects 
+curriculum for AZ-104 by **[Ted Maldonado](https://github.com/polillao)**.

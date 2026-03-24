@@ -85,10 +85,9 @@ The application connects to **Azure Blob Storage** to store uploaded files and g
 - Upload progress indicator
 
 ## License
-MIT License
+[MIT License](LICENSE)
 
 ## Acknowledgements
 
-Inspired by the cloud-engineering-projects series by @madebygps for AZ-104 learning.
-
-Built by Ted Maldonado as part of a hands-on cloud engineering portfolio.
+Inspired by [@madebygps](https://github.com/madebygps) as a part of the clould-engineering-projects for the az-104.
+Built by Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
