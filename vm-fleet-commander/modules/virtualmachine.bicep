@@ -63,7 +63,7 @@ resource VM 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
     networkProfile: {
       networkInterfaces: [
-        id: NIC.id
+        {id: NIC.id}
       ]
     }
   }
