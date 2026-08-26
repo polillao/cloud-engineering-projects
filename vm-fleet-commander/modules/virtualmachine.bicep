@@ -9,8 +9,11 @@ param subnetId string
 resource publicIPResource 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   name: '${vmName}-pip'
   location: location
+  sku: {
+    name: 'Standard'
+  }
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
   }
 }
 resource NIC 'Microsoft.Network/networkInterfaces@2023-04-01' = {
