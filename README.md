@@ -34,5 +34,10 @@ Bicep templates across multiple environments.
 they're done in real cloud environments.
 - **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
 
-### NetMaze Explorer *(in progress)*
+### 🌐 NetMaze Explorer *(in progress)*
+- **Tech Stack:** Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Bastion, Azure Private Link, Azure DNS, Azure Load Balancer
+- **What it does:** Designs a hybrid networking environment connecting a simulated on-premises network to Azure via site-to-site VPN, with segmented subnets, NSG traffic rules, private endpoint access to PaaS services, and load-balanced, DNS-resolved web resources.
+- **Why I built it:** To practice the networking domain hands-on — hybrid connectivity, secure admin access, and traffic control are core to real-world Azure administration.
+- **Link:** [NetMaze Explorer](./netmaze-explorer.md)
+
 ---
