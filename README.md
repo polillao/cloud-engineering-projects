@@ -26,7 +26,7 @@ and secrets managed via Azure Key Vault.
 file sharing — not consumer tools.
 - **Link:** [ShareSafely](./sharesafely.md)
 
-### 📦 VM Fleet Commander *(in progress)*
+### 📦 VM Fleet Commander
 - **Tech Stack:** Azure, Bicep, ARM, Azure Virtual Machines
 - **What it does:** Deploys and manages Azure VM infrastructure using parameterized 
 Bicep templates across multiple environments.
@@ -34,4 +34,5 @@ Bicep templates across multiple environments.
 they're done in real cloud environments.
 - **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
 
+### NetMaze Explorer *(in progress)*
 ---
