@@ -34,4 +34,12 @@ Bicep templates across multiple environments.
 they're done in real cloud environments.
 - **Link:** [VM Fleet Commander](./vm-fleet-commander.md)
 
----
+### 🌐 NetMaze Explorer *(in progress)*
+- **Tech Stack:** Azure, Bicep, Virtual Networks, NSGs, Azure Bastion, Private Link
+- **What it does:** Builds a hybrid-style Azure networking environment with 
+segmented subnets, secure administrative access, and private connectivity to 
+PaaS services.
+- **Why I built it:** To practice the networking patterns real hybrid environments 
+use — segmentation, least-privilege access rules, and keeping traffic off the 
+public internet.
+- **Link:** [NetMaze Explorer](./netmaze-explorer.md)
