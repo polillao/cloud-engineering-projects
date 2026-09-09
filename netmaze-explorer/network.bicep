@@ -1,8 +1,11 @@
 @description('Azure region for all resources')
 param location string = resourceGroup().location
 
+@description('Environment name, used in resource naming')
+param environmentName string = 'dev'
+
 @description('Name of the virtual network')
-param vnetName string = 'vnet-netmaze-dev'
+param vnetName string = 'vnet-netmaze-${environmentName}'
 
 @description('Address space for the entire VNet')
 param vnetAddressPrefix string = '10.0.0.0/16'
@@ -30,19 +33,19 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
     }
     subnets: [
       {
-        name: 'snet-webapp-dev'
+        name: 'snet-webapp-${environmentName}'
         properties: {
           addressPrefix: webAppSubnetPrefix
         }
       }
       {
-        name: 'snet-db-dev'
+        name: 'snet-db-${environmentName}'
         properties: {
           addressPrefix: dbSubnetPrefix
         }
       }
       {
-        name: 'snet-admin-dev'
+        name: 'snet-admin-${environmentName}'
         properties: {
           addressPrefix: adminSubnetPrefix
         }
@@ -58,17 +61,17 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
 }
 resource webAppSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
   parent: vnet
-  name: 'snet-webapp-dev'
+  name: 'snet-webapp-${environmentName}'
 }
 
 resource dbSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
   parent: vnet
-  name: 'snet-db-dev'
+  name: 'snet-db-${environmentName}'
 }
 
 resource adminSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
   parent: vnet
-  name: 'snet-admin-dev'
+  name: 'snet-admin-${environmentName}'
 }
 
 resource bastionSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
