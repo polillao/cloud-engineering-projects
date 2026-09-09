@@ -116,3 +116,11 @@ resource adminSubnetAssociation 'Microsoft.Network/virtualNetworks/subnets@2021-
     network
   ]
 }
+module bastion 'bastion.bicep' = {
+  name: 'bastionDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+    bastionSubnetId: network.outputs.bastionSubnetId
+  }
+}
