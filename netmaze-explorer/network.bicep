@@ -56,3 +56,27 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
     ]
   }
 }
+resource webAppSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
+  parent: vnet
+  name: 'snet-webapp-dev'
+}
+
+resource dbSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
+  parent: vnet
+  name: 'snet-db-dev'
+}
+
+resource adminSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
+  parent: vnet
+  name: 'snet-admin-dev'
+}
+
+resource bastionSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
+  parent: vnet
+  name: 'AzureBastionSubnet'
+}
+
+output webAppSubnetId string = webAppSubnetRef.id
+output dbSubnetId string = dbSubnetRef.id
+output adminSubnetId string = adminSubnetRef.id
+output bastionSubnetId string = bastionSubnetRef.id
