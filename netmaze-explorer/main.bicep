@@ -124,3 +124,12 @@ module bastion 'bastion.bicep' = {
     bastionSubnetId: network.outputs.bastionSubnetId
   }
 }
+module privateLink 'privatelink.bicep' = {
+  name: 'privateLinkDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+    webAppSubnetId: network.outputs.webAppSubnetId
+    vnetId: network.outputs.vnetId
+  }
+}
