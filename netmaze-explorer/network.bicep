@@ -83,3 +83,4 @@ output webAppSubnetId string = webAppSubnetRef.id
 output dbSubnetId string = dbSubnetRef.id
 output adminSubnetId string = adminSubnetRef.id
 output bastionSubnetId string = bastionSubnetRef.id
+output vnetId string = vnet.id
