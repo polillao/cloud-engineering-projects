@@ -10,7 +10,7 @@ param webAppSubnetId string
 @description('Resource ID of the VNet, needed for the private DNS zone link')
 param vnetId string
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: 'stnetmaze${environmentName}${uniqueString(resourceGroup().id)}'
+  name: 'stnm${environmentName}${uniqueString(resourceGroup().id)}'
   location: location
   sku: {
     name: 'Standard_LRS'
