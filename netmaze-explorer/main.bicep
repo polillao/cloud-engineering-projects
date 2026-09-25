@@ -1,8 +1,12 @@
 @description('Azure region for all resources')
 param location string = resourceGroup().location
-
 @description('Environment name, used in resource naming')
 param environmentName string = 'dev'
+@secure()
+@description('Admin password for test VMs')
+param adminPassword string
+@description('Admin username for test VMs')
+param adminUsername string = 'azureadmin'
 
 module network 'network.bicep' = {
   name: 'networkDeployment'
@@ -138,5 +142,15 @@ module loadBalancer 'loadbalancer.bicep' = {
   params: {
     location: location
     environmentName: environmentName
+  }
+}
+module testVms 'testvms.bicep' = {
+  name: 'testVmsDeployment'
+  params: {
+    location: location
+    adminPassword: adminPassword
+    adminUsername: adminUsername
+    webAppSubnetId: network.outputs.webAppSubnetId
+    dbSubnetId: network.outputs.dbSubnetId
   }
 }
