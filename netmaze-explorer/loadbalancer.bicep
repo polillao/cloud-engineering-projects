@@ -8,17 +8,17 @@ resource lbPublicIp 'Microsoft.Network/publicIPAddresses@2021-05-01' = {
   name: 'pip-lb-${environmentName}'
   location: location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
   }
   properties: {
-    publicIPAllocationMethod: 'Dynamic'
+    publicIPAllocationMethod: 'Static'
   }
 }
 resource loadBalancer 'Microsoft.Network/loadBalancers@2021-05-01' = {
   name: 'lb-webapp-${environmentName}'
   location: location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
   }
   properties: {
     frontendIPConfigurations: [
