@@ -133,3 +133,10 @@ module privateLink 'privatelink.bicep' = {
     vnetId: network.outputs.vnetId
   }
 }
+module loadBalancer 'loadbalancer.bicep' = {
+  name: 'loadBalancerDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+  }
+}
