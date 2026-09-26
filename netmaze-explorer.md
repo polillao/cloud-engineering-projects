@@ -70,4 +70,4 @@ Two test VMs (`vm-webapp-test`, `vm-db-test`, no public IPs) were deployed into 
 
 ## Why I Built It
 
-To practice the networking patterns real hybrid environments use — segmentation, least-privilege access control, secure administrative access, and private service connectivity — and to round out the networking domain of AZ-104 with a hands-on, fully deployed and tested build rather than just theory.
+To practice the networking patterns real hybrid environments use (segmentation, least-privilege access control, secure administrative access, and private service connectivity) and to round out the networking domain of AZ-104 with a hands-on, fully deployed and tested build rather than just theory.
