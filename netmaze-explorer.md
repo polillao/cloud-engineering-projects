@@ -54,12 +54,12 @@ Two test VMs (`vm-webapp-test`, `vm-db-test`, no public IPs) were deployed into 
 
 ## Screenshots
 
-![Resource group overview](./screenshots/resource-group-overview.png)
-![Bastion session — connected to vm-webapp-test with no public IP](./screenshots/bastion-session.png)
-![WebApp NSG inbound rules](./screenshots/nsg-webapp-rules.png)
-![Database NSG inbound rules](./screenshots/nsg-db-rules.png)
-![Admin NSG inbound rules](./screenshots/nsg-admin-rules.png)
-![Private DNS resolution to a private IP](./screenshots/nslookup-private-dns.png)
+![Resource group overview](./netmaze-explorer/Screenshots/RGOverview.png)
+![Bastion session — connected to vm-webapp-test with no public IP](./netmaze-explorer/Screenshots/BastionSession.png)
+![WebApp NSG inbound rules](./netmaze-explorer/Screenshots/WebAppNSG.png)
+![Database NSG inbound rules](./netmaze-explorer/Screenshots/DatabaseNSG.png)
+![Admin NSG inbound rules](./netmaze-explorer/Screenshots/AdminNSG.png)
+![Private DNS resolution to a private IP](./netmaze-explorer/Screenshots/nslookup.png)
 
 ## Lessons Learned
 
