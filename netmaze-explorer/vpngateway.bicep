@@ -54,8 +54,8 @@ resource mainGateway 'Microsoft.Network/virtualNetworkGateways@2021-05-01' = {
     gatewayType: 'Vpn'
     vpnType: 'RouteBased'
     sku: {
-      name: 'VpnGw1'
-      tier: 'VpnGw1'
+      name: 'VpnGw1AZ'
+      tier: 'VpnGw1AZ'
     }
   }
 }
@@ -80,8 +80,8 @@ resource onpremGateway 'Microsoft.Network/virtualNetworkGateways@2021-05-01' = {
     gatewayType: 'Vpn'
     vpnType: 'RouteBased'
     sku: {
-      name: 'VpnGw1'
-      tier: 'VpnGw1'
+      name: 'VpnGw1AZ'
+      tier: 'VpnGw1AZ'
     }
   }
 }
