@@ -102,3 +102,4 @@ resource mainToOnpremConnection 'Microsoft.Network/connections@2021-05-01' = {
   }
 }
 output connectionId string = mainToOnpremConnection.id
+output mainGatewayId string = mainGateway.id

@@ -7,7 +7,11 @@ param environmentName string = 'dev'
 param adminPassword string
 @description('Admin username for test VMs')
 param adminUsername string = 'azureadmin'
-
+@secure()
+@description('Shared key for the VPN connection')
+param vpnSharedKey string
+@description('Public DNS zone name for the WebApp')
+param dnsZoneName string = 'netmaze.tedmaldonado.com'
 module network 'network.bicep' = {
   name: 'networkDeployment'
   params: {
@@ -152,5 +156,42 @@ module testVms 'testvms.bicep' = {
     adminUsername: adminUsername
     webAppSubnetId: network.outputs.webAppSubnetId
     dbSubnetId: network.outputs.dbSubnetId
+    adminSubnetId: network.outputs.adminSubnetId
+    backendPoolId: loadBalancer.outputs.backendPoolId
+  }
+}
+module onpremNetwork 'onprem-network.bicep' = {
+  name: 'onpremNetworkDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+  }
+}
+module vpnGateway 'vpngateway.bicep' = {
+  name: 'vpnGatewayDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+    mainGatewaySubnetId: network.outputs.mainGatewaySubnetId
+    onpremGatewaySubnetId: onpremNetwork.outputs.gatewaySubnetId
+    sharedKey: vpnSharedKey
+  }
+}
+module dns 'dns.bicep' = {
+  name: 'dnsDeployment'
+  params: {
+    dnsZoneName: dnsZoneName
+    loadBalancerPublicIp: loadBalancer.outputs.loadBalancerPublicIp
+  }
+}
+module monitoring 'monitoring.bicep' = {
+  name: 'monitoringDeployment'
+  params: {
+    location: location
+    environmentName: environmentName
+    vpnGatewayId: vpnGateway.outputs.mainGatewayId
+    webAppNsgId: webAppNsg.outputs.nsgId
+    dbNsgId: dbNsg.outputs.nsgId
+    adminNsgId: adminNsg.outputs.nsgId
   }
 }
