@@ -101,5 +101,22 @@ resource mainToOnpremConnection 'Microsoft.Network/connections@2021-05-01' = {
     sharedKey: sharedKey
   }
 }
+resource onpremToMainConnection 'Microsoft.Network/connections@2021-05-01' = {
+  name: 'conn-onprem-to-main-${environmentName}'
+  location: location
+  properties: {
+    virtualNetworkGateway1: {
+      id: onpremGateway.id
+      properties: {}
+    }
+    virtualNetworkGateway2: {
+      id: mainGateway.id
+      properties: {}
+    }
+    connectionType: 'Vnet2Vnet'
+    sharedKey: sharedKey
+  }
+}
 output connectionId string = mainToOnpremConnection.id
 output mainGatewayId string = mainGateway.id
+output onpremConnectionId string = onpremToMainConnection.id
