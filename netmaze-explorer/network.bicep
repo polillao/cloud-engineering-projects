@@ -21,6 +21,8 @@ param adminSubnetPrefix string = '10.0.3.0/24'
 
 @description('Address prefix for the Azure Bastion subnet')
 param bastionSubnetPrefix string = '10.0.4.0/26'
+@description('Address prefix for the GatewaySubnet (mandatory name, minimum /27)')
+param mainGatewaySubnetPrefix string = '10.0.5.0/27'
 
 resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
   name: vnetName
@@ -56,6 +58,12 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
           addressPrefix: bastionSubnetPrefix
         }
       }
+      {
+        name: 'GatewaySubnet'
+        properties: {
+          addressPrefix: mainGatewaySubnetPrefix
+        }
+      }
     ]
   }
 }
@@ -78,7 +86,11 @@ resource bastionSubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01'
   parent: vnet
   name: 'AzureBastionSubnet'
 }
-
+resource mainGatewaySubnetRef 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' existing = {
+  parent: vnet
+  name: 'GatewaySubnet'
+}
+output mainGatewaySubnetId string = mainGatewaySubnetRef.id
 output webAppSubnetId string = webAppSubnetRef.id
 output dbSubnetId string = dbSubnetRef.id
 output adminSubnetId string = adminSubnetRef.id
