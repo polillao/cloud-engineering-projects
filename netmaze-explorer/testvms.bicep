@@ -15,6 +15,8 @@ param webAppSubnetId string
 param dbSubnetId string
 @description('Resource ID of the Admin subnet')
 param adminSubnetId string
+@description('Resource ID of the Load Balancer backend pool')
+param backendPoolId string
 resource webAppNic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
   name: 'nic-webapp-test'
   location: location
@@ -26,12 +28,16 @@ resource webAppNic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
           subnet: {
             id: webAppSubnetId
           }
+          loadBalancerBackendAddressPools: [
+            {
+              id: backendPoolId
+            }
+          ]
         }
       }
     ]
   }
 }
-
 resource webAppTestVm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
   name: 'vm-webapp-test'
   location: location

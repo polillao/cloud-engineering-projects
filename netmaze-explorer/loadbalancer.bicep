@@ -70,3 +70,4 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2021-05-01' = {
   }
 }
 output loadBalancerId string = loadBalancer.id
+output backendPoolId string = resourceId('Microsoft.Network/loadBalancers/backendAddressPools', 'lb-webapp-${environmentName}', 'WebAppBackendPool')
