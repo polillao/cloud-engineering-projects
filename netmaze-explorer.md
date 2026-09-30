@@ -1,73 +1,98 @@
 # 🌐 NetMaze Explorer
 
-Azure networking project simulating a hybrid, secure environment: segmented subnets, least-privilege access rules, encrypted admin access, and private connectivity to a PaaS service — all defined as Infrastructure as Code and deployed/tested live.
+Azure hybrid networking project: a segmented VNet connected to a simulated on-premises network over a real site-to-site VPN, with least-privilege NSG rules, Bastion-only admin access, private connectivity to a PaaS service, load-balanced web resources, custom DNS, and full monitoring — all defined as Infrastructure as Code and deployed/tested live, twice.
 
 ## Tech Stack
-Azure Virtual Networks, Network Security Groups (NSGs), Azure Bastion, Azure Private Link, Azure Private DNS, Azure Load Balancer, Bicep (modular, reusable templates)
+Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Bastion, Azure Private Link, Azure DNS, Azure Load Balancer, Azure Monitor / Log Analytics, Bicep
 
 ## Architecture
 
-A single VNet (`10.0.0.0/16`) is split into four subnets:
+**Main VNet** (`10.0.0.0/16`) — five subnets:
 
 | Subnet | Address range | Purpose |
 |---|---|---|
 | `snet-webapp-dev` | `10.0.1.0/24` | Public-facing web tier |
 | `snet-db-dev` | `10.0.2.0/24` | Backend data tier, no direct internet access |
 | `snet-admin-dev` | `10.0.3.0/24` | Administrative access only, via Bastion |
-| `AzureBastionSubnet` | `10.0.4.0/26` | Reserved subnet for Azure Bastion (mandatory exact name) |
+| `AzureBastionSubnet` | `10.0.4.0/26` | Reserved for Azure Bastion |
+| `GatewaySubnet` | `10.0.5.0/27` | Reserved for the VPN Gateway |
 
-Each subnet (except Bastion's) has its own NSG enforcing least-privilege access:
+**Simulated on-premises VNet** (`192.168.0.0/16`) — a second, isolated VNet standing in for a physical on-prem network, with its own workload subnet and `GatewaySubnet`.
+
+**Hybrid connectivity:** a real site-to-site VPN connects the two VNets, using two `VpnGw1AZ` gateways (one per VNet) and a pair of `Vnet2Vnet` connection resources — one in each direction, both authenticated with a shared key. Live-tested and confirmed `Connected` on both sides.
+
+**Network security:** each workload subnet (WebApp, Database, Admin) has its own NSG:
 - **WebApp NSG** — allows inbound HTTP/HTTPS (80/443) from the internet
 - **Database NSG** — allows inbound SQL (1433) only from the WebApp subnet
 - **Admin NSG** — allows inbound RDP (3389) only from the Bastion subnet
 
-Administrative access to VMs goes through **Azure Bastion**, not exposed RDP — no VM in this project has a public IP.
+**Administrative access** goes entirely through Azure Bastion — no VM in this project has a public IP.
 
-A **Storage Account** is reached exclusively via **Azure Private Link**, with a **Private DNS Zone** linked to the VNet so internal name resolution returns the private IP instead of the public endpoint. Public network access on the storage account is explicitly disabled.
+**Private PaaS access:** a Storage Account is reachable only via Private Link, with a Private DNS Zone linked to the VNet so internal name resolution returns the private IP. Public access on the storage account is disabled.
 
-An **Azure Load Balancer** (Standard SKU) distributes traffic across the WebApp subnet with an HTTP health probe.
+**Load balancing:** a Standard SKU Load Balancer distributes HTTP traffic across the WebApp subnet, with the test VM's NIC attached to its backend pool.
+
+**Custom DNS:** a public Azure DNS zone (`netmaze.tedmaldonado.com`) with an A record pointing at the Load Balancer's public IP.
+
+**Monitoring:** a Log Analytics workspace collects diagnostic logs from the VPN Gateway and all three NSGs, with an alert rule configured to fire on elevated NSG deny rates.
 
 ## Key Design Decisions
 
-- **VNet peering instead of VPN Gateway** to simulate hybrid connectivity — a real VPN Gateway costs $140+/month just provisioned; peering demonstrates the same trust-relationship concept for a fraction of the cost, appropriate for a lab environment. In production, this would be a VPN Gateway or ExpressRoute connection.
-- **Modular Bicep structure** (`network.bicep`, `nsg.bicep`, `bastion.bicep`, `privatelink.bicep`, `loadbalancer.bicep`, `testvms.bicep`, orchestrated by `main.bicep`) — mirrors how production environments separate network topology from security policy, so each can be reviewed, versioned, and changed independently.
-- **Environment-aware naming** (`${environmentName}` parameterized throughout) — the same template could deploy `dev`, `test`, or `prod` environments without code changes.
-- **Basic SKU Bastion, Standard SKU Load Balancer** — Bastion's Basic tier is sufficient for browser-based admin access at a fraction of Standard's cost; the Load Balancer required Standard SKU due to an Azure subscription-level restriction on Basic SKU public IPs (encountered live during deployment — see Lessons Learned).
-- **Ephemeral deployment** — the full stack was deployed, tested, and torn down within about 20 minutes to keep cloud spend near zero (total cost: well under $1).
+- **Real VPN Gateway, not peering.** An earlier version of this project used VNet peering as a stand-in for hybrid connectivity to save cost. This rebuild replaced that with an actual site-to-site VPN between two real gateways, matching the original spec and giving a genuine "I configured a VPN tunnel" story rather than a routing shortcut.
+- **Two connection resources, not one.** A VNet-to-VNet VPN requires a connection resource on each gateway, each pointing at the other — not a single shared connection. Missing the second direction leaves the tunnel stuck at `NotConnected` even though everything else deploys successfully.
+- **`VpnGw1AZ`, not `VpnGw1`.** Microsoft deprecated the non-availability-zone VPN Gateway SKUs; only the `*AZ` SKUs can be created going forward. This only surfaced as a deployment-time error, not a `what-if` or `bicep build` warning.
+- **Modular Bicep structure**, one file per concern (`network`, `onprem-network`, `vpngateway`, `nsg`, `bastion`, `privatelink`, `loadbalancer`, `dns`, `monitoring`, `testvms`), orchestrated by `main.bicep` — mirrors how production environments separate ownership and review across network topology, security policy, and operations.
+- **Environment-aware naming** throughout, so the same template could deploy `dev`, `test`, or `prod` without code changes.
+- **Ephemeral deployment.** The full stack, including both VPN Gateways, was deployed, tested, and torn down the same session both times it was built, to keep cost proportional to actual use rather than idle infrastructure.
 
 ## Deployment & Validation Process
 
-1. Wrote and validated each Bicep module individually with `az bicep build`
+1. Built and validated each module individually with `az bicep build`
 2. Validated the full template against Azure with `az deployment group validate`
 3. Ran `az deployment group what-if` to confirm the exact resource plan before touching real infrastructure
 4. Deployed live with `az deployment group create`
-5. Tested connectivity and access live (see below)
-6. Tore down immediately with `az group delete`
+5. Diagnosed and fixed two real deployment-time failures (see Lessons Learned)
+6. Tested connectivity, access, and security boundaries live (below)
+7. Tore down immediately after each test session with `az group delete`
 
 ## Live Testing
 
-Two test VMs (`vm-webapp-test`, `vm-db-test`, no public IPs) were deployed into the WebApp and Database subnets to validate the network design end-to-end:
-
-- **Bastion access confirmed** — connected to `vm-webapp-test` entirely through the browser-based Azure Bastion session, with no public IP on the VM at any point.
-- **NSG rules confirmed** — verified each subnet's inbound rules matched the design (see screenshots).
-- **Private DNS resolution confirmed** — `nslookup` against the storage account's blob endpoint from inside the VNet resolved to a private `10.0.x.x` address, confirming the Private Link + Private DNS Zone chain works end-to-end, not just deployed.
+- **VPN tunnel:** confirmed `Connected` in both directions via `az network vpn-connection show`.
+- **Negative NSG test:** from `vm-admin-test` (Admin subnet), `Test-NetConnection` to the DB VM on port 1433 correctly failed — the Admin subnet has no path to the Database subnet.
+- **Positive NSG test:** used Azure's `test-ip-flow` diagnostic (both CLI and the Portal's IP flow verify tool) to authoritatively confirm the WebApp-to-DB path on port 1433 is allowed by the intended rule, in both directions (`AllowVnetOutBound` outbound from WebApp, `Allow-SQL-From-WebApp` inbound to DB).
+- **Bastion access:** connected to test VMs entirely through the browser-based Bastion session, no public IP on any VM at any point.
+- **Load Balancer:** confirmed `nic-webapp-test` is genuinely attached to the backend pool via the Portal. Did not install a web service on the test VM, so the health probe correctly reports the backend as unhealthy and HTTP traffic to the Load Balancer's public IP times out — this is expected, correct behavior given no listener exists, not a configuration fault.
+- **DNS:** the public DNS zone and A record deployed and validated in Azure; registrar-side delegation to make it resolve on the public internet was out of scope for this pass.
 
 ## Screenshots
 
-![Resource group overview](./netmaze-explorer/Screenshots/RGOverview.png)
-![Bastion session — connected to vm-webapp-test with no public IP](./netmaze-explorer/Screenshots/BastionSession.png)
-![WebApp NSG inbound rules](./netmaze-explorer/Screenshots/WebAppNSG.png)
-![Database NSG inbound rules](./netmaze-explorer/Screenshots/DatabaseNSG.png)
-![Admin NSG inbound rules](./netmaze-explorer/Screenshots/AdminNSG.png)
-![Private DNS resolution to a private IP](./netmaze-explorer/Screenshots/nslookup.png)
+![VPN connection status — both directions Connected](./screenshots/vpn-connection-status.png)
+![Negative test: Admin subnet blocked from reaching DB VM on 1433](./screenshots/nsg-negative-test-admin-to-db.png)
+![IP flow verify: WebApp outbound to DB allowed](./screenshots/ip-flow-verify-webapp-outbound.png)
+![IP flow verify: DB inbound from WebApp allowed](./screenshots/ip-flow-verify-db-inbound.png)
+![Bastion session — connected to a test VM with no public IP](./screenshots/bastion-session.png)
+![vm-webapp-test overview showing no public IP](./screenshots/vm-no-public-ip.png)
+![WebApp NSG inbound rules](./screenshots/nsg-webapp-rules.png)
+![Database NSG inbound rules](./screenshots/nsg-db-rules.png)
+![Admin NSG inbound rules](./screenshots/nsg-admin-rules.png)
+![Load Balancer backend pool showing nic-webapp-test attached](./screenshots/loadbalancer-backend-pool.png)
 
 ## Lessons Learned
 
-- **Nested module outputs and `az deployment group validate`** — Azure's `validate` command can short-circuit deep validation of nested modules when they depend on another module's outputs (a known limitation, not a template error). `what-if` handled the full dependency chain correctly and was the more reliable pre-deploy check.
-- **Basic SKU public IP quota** — this subscription's tier doesn't allow any Basic SKU public IP addresses at all, which failed the Load Balancer deployment mid-run. Fixed by switching both the public IP and Load Balancer to Standard SKU (they must match tiers).
-- **Storage account naming** — `uniqueString()` combined with a naming prefix can exceed Azure's 24-character limit for storage account names; kept the prefix short (`stnm`) to leave headroom.
-- **Cross-cloud portability** — used Bicep's `environment().suffixes.storage` function instead of hardcoding `core.windows.net`, so the same template would resolve correctly if deployed into a different Azure cloud (e.g. Azure Government).
+- **NSG allowed ≠ reachable.** The first positive-path test failed even though the NSG correctly allowed it — because Windows' own host firewall, running inside the VM, independently blocks unsolicited inbound connections by default. Both the Azure network layer (NSG) and the guest OS layer (Windows Firewall) have to agree before traffic gets through. Opening the same port in the guest firewall, then re-verifying with Azure's `test-ip-flow` tool rather than an app-layer test, cleanly separated "is the network path open" from "is something listening."
+- **VNet-to-VNet VPN needs two connection resources.** Documented in Microsoft's own setup guide, but easy to miss: one connection object per direction, sharing the same key.
+- **VPN Gateway SKU deprecation.** `VpnGw1`–`VpnGw5` (non-AZ) are no longer creatable; only the `*AZ` SKUs are accepted now. This kind of platform-level change won't show up in `what-if` or a linter — only a live deploy attempt surfaces it.
+- **Incremental deployment is genuinely useful during iteration.** Both fixes (SKU, missing connection) only required redeploying the same template; Azure recognized everything already correctly deployed and only created what was missing or previously failed — a 3-minute redeploy instead of another 35-minute full run.
 
 ## Why I Built It
 
-To practice the networking patterns real hybrid environments use (segmentation, least-privilege access control, secure administrative access, and private service connectivity) and to round out the networking domain of AZ-104 with a hands-on, fully deployed and tested build rather than just theory.
+To practice the full networking domain hands-on: hybrid connectivity, segmentation, least-privilege access control, secure administrative access, private service connectivity, load balancing, custom DNS, and monitoring — and to build and fix a real, live Azure environment rather than a paper design.
+
+## License
+
+[MIT License](https://github.com/polillao/cloud-engineering-projects/blob/main/LICENSE)
+
+## Acknowledgements
+
+Inspired by [@madebygps](https://github.com/madebygps) as part of the cloud-engineering-projects for the AZ-104.
+Built by **[Ted Maldonado](https://github.com/polillao)** as part of a hands-on cloud automation portfolio.
