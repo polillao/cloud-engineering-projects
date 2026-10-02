@@ -66,7 +66,7 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 
 ## Screenshots
 
-![VPN connection status — conn-main-to-onprem-dev Connected](./netmaze-explorer/screenshots/vpn-connection-status1.png)
+![VPN connection status — conn-main-to-onprem-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status1.png)
 ![VPN connection status — conn-onprem-to-main-dev Connected](./netmaze-explorer/screenshots/vpnconnection2.png)
 ![Negative test: Admin subnet blocked from reaching DB VM on 1433](./netmaze-explorer/screenshots/nsg-negative-test-admin-to-db.png)
 ![IP flow verify: WebApp outbound to DB allowed](./netmaze-explorer/screenshots/ip-flow-verify-webapp-outbound.png)
