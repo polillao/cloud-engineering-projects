@@ -70,25 +70,25 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 *The main-to-onprem VPN connection, confirmed Connected in the Portal.*
 
 ![VPN connection status — conn-onprem-to-main-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status2.png)
-*The reverse-direction connection, also Connected — proving the tunnel is fully established both ways.*
+*The reverse-direction connection, also Connected - proving the tunnel is fully established both ways.*
 
 ![Negative test: Admin subnet blocked from reaching DB VM on 1433](netmaze-explorer/Screenshots/nsg-negative-test-admin-to-db.png)
-*Test-NetConnection from the Admin subnet to the DB VM on port 1433 correctly fails — the Admin NSG has no path to the Database subnet.*
+*Test-NetConnection from the Admin subnet to the DB VM on port 1433 correctly fails - the Admin NSG has no path to the Database subnet.*
 
 ![IP flow verify: WebApp outbound to DB allowed](netmaze-explorer/Screenshots/ip-flow-verify-webapp-outbound.png)
 *Azure's test-ip-flow confirms outbound traffic from the WebApp VM to the DB VM on 1433 is allowed by the default VNet rule.*
 
 ![IP flow verify: DB inbound from WebApp allowed](netmaze-explorer/Screenshots/ip-flow-verify-db-inbound.png)
-*test-ip-flow confirms the DB NSG's Allow-SQL-From-WebApp rule permits this same traffic inbound — the authoritative, network-layer proof the rule works.*
+*test-ip-flow confirms the DB NSG's Allow-SQL-From-WebApp rule permits this same traffic inbound - the authoritative, network-layer proof the rule works.*
 
 ![vm-webapp-test overview showing no public IP](netmaze-explorer/Screenshots/vm-no-public-ip.png)
-*The WebApp test VM has no public IP address at all — all access goes through Bastion.*
+*The WebApp test VM has no public IP address at all - all access goes through Bastion.*
 
 ![WebApp NSG inbound rules](netmaze-explorer/Screenshots/nsg-webapp-rules.png)
 *Only HTTP/HTTPS from the internet is allowed into the WebApp subnet.*
 
 ![Database NSG inbound rules](netmaze-explorer/Screenshots/nsg-db-rules.png)
-*Only SQL traffic from the WebApp subnet is allowed into the Database subnet — nothing else, including the internet.*
+*Only SQL traffic from the WebApp subnet is allowed into the Database subnet - nothing else, including the internet.*
 
 ![Admin NSG inbound rules](netmaze-explorer/Screenshots/nsg-admin-rules.png)
 *Only RDP from the Bastion subnet is allowed into the Admin subnet.*
@@ -97,7 +97,7 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 *The Load Balancer's topology view confirms the WebApp VM is genuinely attached to the backend pool; it shows unhealthy only because no web service was installed to answer the health probe.*
 
 ![Load Balancer's public IP (Standard SKU, static allocation)](netmaze-explorer/Screenshots/pip-lb-dev.png)
-*The Load Balancer's frontend public IP, Standard SKU with static allocation — required to pair with the Standard SKU Load Balancer.*
+*The Load Balancer's frontend public IP, Standard SKU with static allocation - required to pair with the Standard SKU Load Balancer.*
 
 ## Lessons Learned
 
