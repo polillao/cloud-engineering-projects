@@ -67,23 +67,44 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 ## Screenshots
 
 ![VPN connection status — conn-main-to-onprem-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status1.png)
+*The main-to-onprem VPN connection, confirmed Connected in the Portal.*
+
 ![VPN connection status — conn-onprem-to-main-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status2.png)
+*The reverse-direction connection, also Connected — proving the tunnel is fully established both ways.*
+
 ![Negative test: Admin subnet blocked from reaching DB VM on 1433](netmaze-explorer/Screenshots/nsg-negative-test-admin-to-db.png)
+*Test-NetConnection from the Admin subnet to the DB VM on port 1433 correctly fails — the Admin NSG has no path to the Database subnet.*
+
 ![IP flow verify: WebApp outbound to DB allowed](netmaze-explorer/Screenshots/ip-flow-verify-webapp-outbound.png)
+*Azure's test-ip-flow confirms outbound traffic from the WebApp VM to the DB VM on 1433 is allowed by the default VNet rule.*
+
 ![IP flow verify: DB inbound from WebApp allowed](netmaze-explorer/Screenshots/ip-flow-verify-db-inbound.png)
+*test-ip-flow confirms the DB NSG's Allow-SQL-From-WebApp rule permits this same traffic inbound — the authoritative, network-layer proof the rule works.*
+
 ![vm-webapp-test overview showing no public IP](netmaze-explorer/Screenshots/vm-no-public-ip.png)
+*The WebApp test VM has no public IP address at all — all access goes through Bastion.*
+
 ![WebApp NSG inbound rules](netmaze-explorer/Screenshots/nsg-webapp-rules.png)
+*Only HTTP/HTTPS from the internet is allowed into the WebApp subnet.*
+
 ![Database NSG inbound rules](netmaze-explorer/Screenshots/nsg-db-rules.png)
+*Only SQL traffic from the WebApp subnet is allowed into the Database subnet — nothing else, including the internet.*
+
 ![Admin NSG inbound rules](netmaze-explorer/Screenshots/nsg-admin-rules.png)
+*Only RDP from the Bastion subnet is allowed into the Admin subnet.*
+
 ![Load Balancer topology showing vm-webapp-test attached but unhealthy (no listener on port 80)](netmaze-explorer/Screenshots/loadbalancer-backend-pool.png)
+*The Load Balancer's topology view confirms the WebApp VM is genuinely attached to the backend pool; it shows unhealthy only because no web service was installed to answer the health probe.*
+
 ![Load Balancer's public IP (Standard SKU, static allocation)](netmaze-explorer/Screenshots/pip-lb-dev.png)
+*The Load Balancer's frontend public IP, Standard SKU with static allocation — required to pair with the Standard SKU Load Balancer.*
 
 ## Lessons Learned
 
 - **NSG allowed ≠ reachable.** The first positive-path test failed even though the NSG correctly allowed it — because Windows' own host firewall, running inside the VM, independently blocks unsolicited inbound connections by default. Both the Azure network layer (NSG) and the guest OS layer (Windows Firewall) have to agree before traffic gets through. Opening the same port in the guest firewall, then re-verifying with Azure's `test-ip-flow` tool rather than an app-layer test, cleanly separated "is the network path open" from "is something listening."
 - **VNet-to-VNet VPN needs two connection resources.** Documented in Microsoft's own setup guide, but easy to miss: one connection object per direction, sharing the same key.
 - **VPN Gateway SKU deprecation.** `VpnGw1`–`VpnGw5` (non-AZ) are no longer creatable; only the `*AZ` SKUs are accepted now. This kind of platform-level change won't show up in `what-if` or a linter — only a live deploy attempt surfaces it.
-- **Incremental deployment is ngenuinely useful during iteration.** Both fixes (SKU, missing connection) only required redeploying the same template; Azure recognized everything already correctly deployed and only created what was missing or previously failed — a 3-minute redeploy instead of another 35-minute full run.
+- **Incremental deployment is genuinely useful during iteration.** Both fixes (SKU, missing connection) only required redeploying the same template; Azure recognized everything already correctly deployed and only created what was missing or previously failed — a 3-minute redeploy instead of another 35-minute full run.
 
 ## Why I Built It
 
