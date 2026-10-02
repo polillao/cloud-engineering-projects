@@ -67,23 +67,23 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 ## Screenshots
 
 ![VPN connection status — conn-main-to-onprem-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status1.png)
-![VPN connection status — conn-onprem-to-main-dev Connected](./netmaze-explorer/screenshots/vpnconnection2.png)
-![Negative test: Admin subnet blocked from reaching DB VM on 1433](./netmaze-explorer/screenshots/nsg-negative-test-admin-to-db.png)
-![IP flow verify: WebApp outbound to DB allowed](./netmaze-explorer/screenshots/ip-flow-verify-webapp-outbound.png)
-![IP flow verify: DB inbound from WebApp allowed](./netmaze-explorer/screenshots/ip-flow-verify-db-inbound.png)
-![vm-webapp-test overview showing no public IP](./netmaze-explorer/screenshots/vm-no-public-ip.png)
-![WebApp NSG inbound rules](./netmaze-explorer/screenshots/nsg-webapp-rules.png)
-![Database NSG inbound rules](./netmaze-explorer/screenshots/nsg-db-rules.png)
-![Admin NSG inbound rules](./netmaze-explorer/screenshots/nsg-admin-rules.png)
-![Load Balancer topology showing vm-webapp-test attached but unhealthy (no listener on port 80)](./netmaze-explorer/screenshots/loadbalancer-backend-pool.png)
-![Load Balancer's public IP (Standard SKU, static allocation)](./netmaze-explorer/screenshots/pip-lb-dev.png)
+![VPN connection status — conn-onprem-to-main-dev Connected](netmaze-explorer/screenshots/vpnconnection2.png)
+![Negative test: Admin subnet blocked from reaching DB VM on 1433](netmaze-explorer/screenshots/nsg-negative-test-admin-to-db.png)
+![IP flow verify: WebApp outbound to DB allowed](netmaze-explorer/screenshots/ip-flow-verify-webapp-outbound.png)
+![IP flow verify: DB inbound from WebApp allowed](netmaze-explorer/screenshots/ip-flow-verify-db-inbound.png)
+![vm-webapp-test overview showing no public IP](netmaze-explorer/screenshots/vm-no-public-ip.png)
+![WebApp NSG inbound rules](netmaze-explorer/screenshots/nsg-webapp-rules.png)
+![Database NSG inbound rules](netmaze-explorer/screenshots/nsg-db-rules.png)
+![Admin NSG inbound rules](netmaze-explorer/screenshots/nsg-admin-rules.png)
+![Load Balancer topology showing vm-webapp-test attached but unhealthy (no listener on port 80)](netmaze-explorer/screenshots/loadbalancer-backend-pool.png)
+![Load Balancer's public IP (Standard SKU, static allocation)](netmaze-explorer/screenshots/pip-lb-dev.png)
 
 ## Lessons Learned
 
 - **NSG allowed ≠ reachable.** The first positive-path test failed even though the NSG correctly allowed it — because Windows' own host firewall, running inside the VM, independently blocks unsolicited inbound connections by default. Both the Azure network layer (NSG) and the guest OS layer (Windows Firewall) have to agree before traffic gets through. Opening the same port in the guest firewall, then re-verifying with Azure's `test-ip-flow` tool rather than an app-layer test, cleanly separated "is the network path open" from "is something listening."
 - **VNet-to-VNet VPN needs two connection resources.** Documented in Microsoft's own setup guide, but easy to miss: one connection object per direction, sharing the same key.
 - **VPN Gateway SKU deprecation.** `VpnGw1`–`VpnGw5` (non-AZ) are no longer creatable; only the `*AZ` SKUs are accepted now. This kind of platform-level change won't show up in `what-if` or a linter — only a live deploy attempt surfaces it.
-- **Incremental deployment is genuinely useful during iteration.** Both fixes (SKU, missing connection) only required redeploying the same template; Azure recognized everything already correctly deployed and only created what was missing or previously failed — a 3-minute redeploy instead of another 35-minute full run.
+- **Incremental deployment is ngenuinely useful during iteration.** Both fixes (SKU, missing connection) only required redeploying the same template; Azure recognized everything already correctly deployed and only created what was missing or previously failed — a 3-minute redeploy instead of another 35-minute full run.
 
 ## Why I Built It
 
