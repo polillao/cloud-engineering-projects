@@ -67,16 +67,16 @@ Azure Virtual Networks, VPN Gateway, Network Security Groups (NSGs), Azure Basti
 ## Screenshots
 
 ![VPN connection status — conn-main-to-onprem-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status1.png)
-![VPN connection status — conn-onprem-to-main-dev Connected](netmaze-explorer/screenshots/vpnconnection2.png)
-![Negative test: Admin subnet blocked from reaching DB VM on 1433](netmaze-explorer/screenshots/nsg-negative-test-admin-to-db.png)
-![IP flow verify: WebApp outbound to DB allowed](netmaze-explorer/screenshots/ip-flow-verify-webapp-outbound.png)
-![IP flow verify: DB inbound from WebApp allowed](netmaze-explorer/screenshots/ip-flow-verify-db-inbound.png)
-![vm-webapp-test overview showing no public IP](netmaze-explorer/screenshots/vm-no-public-ip.png)
-![WebApp NSG inbound rules](netmaze-explorer/screenshots/nsg-webapp-rules.png)
-![Database NSG inbound rules](netmaze-explorer/screenshots/nsg-db-rules.png)
-![Admin NSG inbound rules](netmaze-explorer/screenshots/nsg-admin-rules.png)
-![Load Balancer topology showing vm-webapp-test attached but unhealthy (no listener on port 80)](netmaze-explorer/screenshots/loadbalancer-backend-pool.png)
-![Load Balancer's public IP (Standard SKU, static allocation)](netmaze-explorer/screenshots/pip-lb-dev.png)
+![VPN connection status — conn-onprem-to-main-dev Connected](netmaze-explorer/Screenshots/vpn-connection-status2.png)
+![Negative test: Admin subnet blocked from reaching DB VM on 1433](netmaze-explorer/Screenshots/nsg-negative-test-admin-to-db.png)
+![IP flow verify: WebApp outbound to DB allowed](netmaze-explorer/Screenshots/ip-flow-verify-webapp-outbound.png)
+![IP flow verify: DB inbound from WebApp allowed](netmaze-explorer/Screenshots/ip-flow-verify-db-inbound.png)
+![vm-webapp-test overview showing no public IP](netmaze-explorer/Screenshots/vm-no-public-ip.png)
+![WebApp NSG inbound rules](netmaze-explorer/Screenshots/nsg-webapp-rules.png)
+![Database NSG inbound rules](netmaze-explorer/Screenshots/nsg-db-rules.png)
+![Admin NSG inbound rules](netmaze-explorer/Screenshots/nsg-admin-rules.png)
+![Load Balancer topology showing vm-webapp-test attached but unhealthy (no listener on port 80)](netmaze-explorer/Screenshots/loadbalancer-backend-pool.png)
+![Load Balancer's public IP (Standard SKU, static allocation)](netmaze-explorer/Screenshots/pip-lb-dev.png)
 
 ## Lessons Learned
 
